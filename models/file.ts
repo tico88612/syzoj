@@ -49,7 +49,7 @@ export default class File extends Model {
   static async upload(path, type, noLimit) {
     let buf = await fs.readFile(path);
 
-    if (!noLimit && buf.length > syzoj.config.limit.data_size) throw new ErrorMessage('数据包太大。');
+    if (!noLimit && buf.length > syzoj.config.limit.data_size) throw new ErrorMessage('資料包太大。');
 
     let key = syzoj.utils.md5(buf);
     await fs.move(path, File.resolvePath(type, key), { overwrite: true });
@@ -79,7 +79,7 @@ export default class File extends Model {
       }
     }
 
-    if (this.unzipSize === null) throw new ErrorMessage('无效的 ZIP 文件。');
+    if (this.unzipSize === null) throw new ErrorMessage('無效的 ZIP 檔案。');
     else return this.unzipSize;
   }
 }

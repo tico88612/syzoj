@@ -159,8 +159,8 @@ export default class Problem extends Model {
         unzipCount = files.length;
         for (let file of files) unzipSize += file.size;
       });
-      if (!noLimit && unzipCount > syzoj.config.limit.testdata_filecount) throw new ErrorMessage('数据包中的文件太多。');
-      if (!noLimit && unzipSize > syzoj.config.limit.testdata) throw new ErrorMessage('数据包太大。');
+      if (!noLimit && unzipCount > syzoj.config.limit.testdata_filecount) throw new ErrorMessage('資料包中的檔案太多。');
+      if (!noLimit && unzipSize > syzoj.config.limit.testdata) throw new ErrorMessage('資料包太大。');
 
       let dir = this.getTestdataPath();
       await fs.remove(dir);
@@ -186,8 +186,8 @@ export default class Problem extends Model {
         }
       }
 
-      if (!noLimit && oldSize + size > syzoj.config.limit.testdata) throw new ErrorMessage('数据包太大。');
-      if (!noLimit && oldCount + (!replace as any as number) > syzoj.config.limit.testdata_filecount) throw new ErrorMessage('数据包中的文件太多。');
+      if (!noLimit && oldSize + size > syzoj.config.limit.testdata) throw new ErrorMessage('資料包太大。');
+      if (!noLimit && oldCount + (!replace as any as number) > syzoj.config.limit.testdata_filecount) throw new ErrorMessage('資料包中的檔案太多。');
 
       await fs.move(filepath, path.join(dir, filename), { overwrite: true });
 
@@ -208,12 +208,12 @@ export default class Problem extends Model {
   async makeTestdataZip() {
     await syzoj.utils.lock(['Promise::Testdata', this.id], async () => {
       let dir = this.getTestdataPath();
-      if (!await syzoj.utils.isDir(dir)) throw new ErrorMessage('无测试数据。');
+      if (!await syzoj.utils.isDir(dir)) throw new ErrorMessage('無測試資料。');
 
       let p7zip = new (require('node-7z'));
 
       let list = await this.listTestdata(), pathlist = list.files.map(file => path.join(dir, file.filename));
-      if (!pathlist.length) throw new ErrorMessage('无测试数据。');
+      if (!pathlist.length) throw new ErrorMessage('無測試資料。');
       await fs.ensureDir(path.resolve(this.getTestdataArchivePath(), '..'));
       await p7zip.add(this.getTestdataArchivePath(), pathlist);
     });

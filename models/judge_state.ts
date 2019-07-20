@@ -179,7 +179,7 @@ export default class JudgeState extends Model {
         await this.save();
       } catch (err) {
         console.log("Error while connecting to judge frontend: " + err.toString());
-        throw new ErrorMessage("无法开始评测。");
+        throw new ErrorMessage("無法開始評測。");
       }
     });
   }

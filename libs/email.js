@@ -59,7 +59,7 @@ if (syzoj.config.email.method === "sendmail") {
     };
 } else {
     doSendEmail = async () => {
-        throw new Error("邮件发送配置不正确。");
+        throw new Error("信件發送設定不正確。");
     }
 }
 module.exports.send = doSendEmail;

@@ -1,4 +1,4 @@
-<% this.title = '首页'; %>
+<% this.title = '首頁'; %>
 <% include header %>
 <div class="padding">
   <div class="ui three column grid">
@@ -8,8 +8,8 @@
         <table class="ui very basic table">
           <thead>
             <tr>
-              <th>标题</th>
-              <th>时间</th>
+              <th>標題</th>
+              <th>時間</th>
             </tr>
           </thead>
           <tbody>
@@ -28,8 +28,8 @@
           <thead>
             <tr>
 	            <th style="width: 50px; ">#</th>
-	            <th style="width: 170px; ">用户名</th>
-	            <th>个性签名</th>
+	            <th style="width: 170px; ">使用者名稱</th>
+	            <th>個性簽名</th>
             </tr>
           </thead>
           <script data-cfasync="false">
@@ -39,7 +39,7 @@
             div.style.position = 'fixed';
             div.style.left = -10000;
             div.style.visibility = 'hidden';
-            div.innerText = '测试，Test.';
+            div.innerText = '測試，Test.';
             document.body.appendChild(div);
             lineHeight = div.clientHeight;
           })();
@@ -120,7 +120,7 @@
             else if (fortune.fortune.indexOf('凶') != -1) color = '#f25e65';
             else color = '#444';
         %>
-        <h4 class="ui top attached block header"><i class="ui magic icon"></i>今日运势</h4>
+        <h4 class="ui top attached block header"><i class="ui magic icon"></i>今日運勢</h4>
         <div class="ui bottom attached segment">
             <div style="height: 15px; "></div>
             <div class="ui two column center aligned padded grid">
@@ -141,7 +141,7 @@
                             <br>
                             <span style="color: #888; font-size: 0.7em; "><%= fortune.good[1].detail %></span>
                             <% } else { %>
-                            <strong>诸事不宜<br>
+                            <strong>諸事不宜<br>
                             </strong>
                             <% } %>
                         </div>
@@ -157,7 +157,7 @@
                             <br>
                             <span style="color: #888; font-size: 0.7em; "><%= fortune.bad[1].detail %></span>
                             <% } else { %>
-                            <strong>万事皆宜<br>
+                            <strong>萬事皆宜<br>
                             </strong>
                             <% } %>
                         </div>
@@ -166,28 +166,28 @@
             </div>
         </div>
         <% } %>
-      <h4 class="ui top attached block header"><i class="ui search icon"></i>搜索题目</h4>
+      <h4 class="ui top attached block header"><i class="ui search icon"></i>搜尋題目</h4>
       <div class="ui bottom attached segment">
         <form action="<%= syzoj.utils.makeUrl(['problems', 'search']) %>" method="get">
           <div class="ui search" style="width: 100%; ">
             <div class="ui left icon input" style="width: 100%; ">
-              <input class="prompt" style="width: 100%; " type="text" placeholder="ID / 题目名 …" name="keyword">
+              <input class="prompt" style="width: 100%; " type="text" placeholder="ID / 題目名 ..." name="keyword">
               <i class="search icon"></i>
             </div>
             <div class="results" style="width: 100%; "></div>
           </div>
         </form>
       </div>
-      <h4 class="ui top attached block header"><i class="ui calendar icon"></i>近期比赛</h4>
+      <h4 class="ui top attached block header"><i class="ui calendar icon"></i>最近比賽</h4>
       <div class="ui bottom attached <% if (!contests || !contests.length) { %>center aligned <% } %>segment">
         <% if (!contests || !contests.length) { %>
-        还没有举行过任何比赛
+        還沒舉辦過任何比賽
         <% } else { %>
         <table class="ui very basic center aligned table">
           <thead>
             <tr>
-              <th>比赛名称</th>
-              <th>开始时间</th>
+              <th>比賽名稱</th>
+              <th>開始時間</th>
             </tr>
           </thead>
           <tbody>
@@ -198,11 +198,11 @@
             %>
             <tr>
               <% if (now < contest.start_time) { %>
-                <% tag = '<span class="ui header"><div class="ui mini red label">未开始</div></span>' %>
+                <% tag = '<span class="ui header"><div class="ui mini red label">尚未開始</div></span>' %>
               <% } else if (now >= contest.start_time && now < contest.end_time) { %>
-                <% tag = '<span class="ui header"><div class="ui mini green label">进行中</div></span>' %>
+                <% tag = '<span class="ui header"><div class="ui mini green label">進行中</div></span>' %>
               <% } else { %>
-                <% tag = '<span class="ui header"><div class="ui mini grey label">已结束</div></span>' %>
+                <% tag = '<span class="ui header"><div class="ui mini grey label">已結束</div></span>' %>
               <% } %>
               <td><a href="<%= syzoj.utils.makeUrl(['contest', contest.id]) %>"><%= contest.title %> <%- tag %></a></td>
               <td><%= syzoj.utils.formatDate(contest.start_time) %></td>
@@ -213,7 +213,7 @@
         <% } %>
       </div>
       <% if (typeof links !== 'undefined' && links && links.length) { %>
-      <h4 class="ui top attached block header font-content"><i class="ui linkify icon"></i>友情链接</h4>
+      <h4 class="ui top attached block header font-content"><i class="ui linkify icon"></i>友情連結</h4>
       <div class="ui bottom attached segment">
         <ul style="margin: 0; padding-left: 20px; ">
           <% for (let link of links) { %>
