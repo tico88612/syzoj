@@ -39,7 +39,7 @@ app.get('/admin/info', async (req, res) => {
 });
 
 let configItems = {
-  'title': { name: '網站名稱'', type: String },
+  'title': { name: '網站名稱', type: String },
   'google_analytics': { name: 'Google Analytics', type: String },
   '預設參數': null,
   'default.problem.time_limit': { name: '時間限制（單位：ms）', type: Number },
