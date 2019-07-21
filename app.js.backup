@@ -1,7 +1,7 @@
 const fs = require('fs'),
       path = require('path'),
       util = require('util'),
-      http = require('https'),
+      http = require('http'),
       serializejs = require('serialize-javascript'),
       UUID = require('uuid'),
       commandLineArgs = require('command-line-args');
@@ -15,14 +15,6 @@ const options = commandLineArgs(optionDefinitions);
 require('reflect-metadata');
 
 global.Promise = require('bluebird');
-
-var key = fs.readFileSync('.ssl/privatekey.pem').toString();
-var cert = fs.readFileSync('.ssl/certificate.pem').toString();
-
-var optionss = {
-    key: key,
-    cert: cert
-};
 
 // Disable 'Warning: a promise was created in a handler at ...'
 Promise.config({
@@ -106,7 +98,7 @@ global.syzoj = {
       return router;
     })());
 
-    app.server = http.createServer(optionss, app);
+    app.server = http.createServer(app);
 
     await this.connectDatabase();
     this.loadModules();
