@@ -58,7 +58,7 @@ let configItems = {
   'page.judge_state': { name: '解題紀錄', type: Number },
   'page.problem_statistics': { name: '題目統計', type: Number },
   'page.ranklist': { name: '排行榜', type: Number },
-  'page.discussion': { name: '討論'', type: Number },
+  'page.discussion': { name: '討論', type: Number },
   'page.article_comment': { name: '留言', type: Number },
   'page.contest': { name: '比賽', type: Number }
 };
