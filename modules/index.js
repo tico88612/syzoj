@@ -5,8 +5,8 @@ let Problem = syzoj.model('problem');
 let Divine = require('syzoj-divine');
 let TimeAgo = require('javascript-time-ago');
 let zh = require('../libs/timeago');
-TimeAgo.locale(zh);
-const timeAgo = new TimeAgo('zh-CN');
+TimeAgo.locale(zh_TW);
+const timeAgo = new TimeAgo('zh-TW');
 
 app.get('/', async (req, res) => {
   try {

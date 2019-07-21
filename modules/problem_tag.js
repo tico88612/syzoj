@@ -2,7 +2,7 @@ let ProblemTag = syzoj.model('problem_tag');
 
 app.get('/problems/tag/:id/edit', async (req, res) => {
   try {
-    if (!res.locals.user || !await res.locals.user.hasPrivilege('manage_problem_tag')) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !await res.locals.user.hasPrivilege('manage_problem_tag')) throw new ErrorMessage('您沒有權限進行此動作。');
 
     let id = parseInt(req.params.id) || 0;
     let tag = await ProblemTag.findById(id);
@@ -25,7 +25,7 @@ app.get('/problems/tag/:id/edit', async (req, res) => {
 
 app.post('/problems/tag/:id/edit', async (req, res) => {
   try {
-    if (!res.locals.user || !await res.locals.user.hasPrivilege('manage_problem_tag')) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !await res.locals.user.hasPrivilege('manage_problem_tag')) throw new ErrorMessage('您沒有權限進行此動作。');
 
     let id = parseInt(req.params.id) || 0;
     let tag = await ProblemTag.findById(id);
@@ -38,7 +38,7 @@ app.post('/problems/tag/:id/edit', async (req, res) => {
     req.body.name = req.body.name.trim();
     if (tag.name !== req.body.name) {
       if (await ProblemTag.findOne({ where: { name: req.body.name } })) {
-        throw new ErrorMessage('标签名称已被使用。');
+        throw new ErrorMessage('標籤名稱已被使用。');
       }
     }
 

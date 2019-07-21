@@ -10,7 +10,7 @@ app.get('/ranklist', async (req, res) => {
     const sort = req.query.sort || syzoj.config.sorting.ranklist.field;
     const order = req.query.order || syzoj.config.sorting.ranklist.order;
     if (!['ac_num', 'rating', 'id', 'username'].includes(sort) || !['asc', 'desc'].includes(order)) {
-      throw new ErrorMessage('错误的排序参数。');
+      throw new ErrorMessage('錯誤得排序參數。');
     }
     let paginate = syzoj.utils.paginate(await User.countForPagination({ is_show: true }), req.query.page, syzoj.config.page.ranklist);
     let ranklist = await User.queryPage(paginate, { is_show: true }, { [sort]: order.toUpperCase() });
@@ -33,7 +33,7 @@ app.get('/ranklist', async (req, res) => {
 app.get('/find_user', async (req, res) => {
   try {
     let user = await User.fromName(req.query.nickname);
-    if (!user) throw new ErrorMessage('无此用户。');
+    if (!user) throw new ErrorMessage('無此使用者。');
     res.redirect(syzoj.utils.makeUrl(['user', user.id]));
   } catch (e) {
     syzoj.log(e);
@@ -47,7 +47,7 @@ app.get('/find_user', async (req, res) => {
 app.get('/login', async (req, res) => {
   if (res.locals.user) {
     res.render('error', {
-      err: new ErrorMessage('您已经登录了，请先注销。', { '注销': syzoj.utils.makeUrl(['logout'], { 'url': req.originalUrl }) })
+      err: new ErrorMessage('您已經登入了，請先登出。', { '登出': syzoj.utils.makeUrl(['logout'], { 'url': req.originalUrl }) })
     });
   } else {
     res.render('login');
@@ -58,7 +58,7 @@ app.get('/login', async (req, res) => {
 app.get('/sign_up', async (req, res) => {
   if (res.locals.user) {
     res.render('error', {
-      err: new ErrorMessage('您已经登录了，请先注销。', { '注销': syzoj.utils.makeUrl(['logout'], { 'url': req.originalUrl }) })
+      err: new ErrorMessage('您已經登入了，請先登出。', { '登出': syzoj.utils.makeUrl(['logout'], { 'url': req.originalUrl }) })
     });
   } else {
     res.render('sign_up');
@@ -77,7 +77,7 @@ app.get('/user/:id', async (req, res) => {
   try {
     let id = parseInt(req.params.id);
     let user = await User.findById(id);
-    if (!user) throw new ErrorMessage('无此用户。');
+    if (!user) throw new ErrorMessage('無此使用者。');
     user.ac_problems = await user.getACProblems();
     user.articles = await user.getArticles();
     user.allowedEdit = await user.isAllowedEditBy(res.locals.user);
@@ -91,7 +91,7 @@ app.get('/user/:id', async (req, res) => {
       order: { rating_calculation_id: 'ASC' }
     });
     const ratingHistories = [{
-      contestName: "初始积分",
+      contestName: "初始積分",
       value: syzoj.config.default.user.rating,
       delta: null,
       rank: null
@@ -126,11 +126,11 @@ app.get('/user/:id/edit', async (req, res) => {
   try {
     let id = parseInt(req.params.id);
     let user = await User.findById(id);
-    if (!user) throw new ErrorMessage('无此用户。');
+    if (!user) throw new ErrorMessage('無此使用者。');
 
     let allowedEdit = await user.isAllowedEditBy(res.locals.user);
     if (!allowedEdit) {
-      throw new ErrorMessage('您没有权限进行此操作。');
+      throw new ErrorMessage('您沒有權限進行此動作。');
     }
 
     user.privileges = await user.getPrivileges();
@@ -160,18 +160,18 @@ app.post('/user/:id/edit', async (req, res) => {
   try {
     let id = parseInt(req.params.id);
     user = await User.findById(id);
-    if (!user) throw new ErrorMessage('无此用户。');
+    if (!user) throw new ErrorMessage('無此使用者。');
 
     let allowedEdit = await user.isAllowedEditBy(res.locals.user);
-    if (!allowedEdit) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!allowedEdit) throw new ErrorMessage('您沒有權限進行此動作。');
 
     if (req.body.old_password && req.body.new_password) {
-      if (user.password !== req.body.old_password && !await res.locals.user.hasPrivilege('manage_user')) throw new ErrorMessage('旧密码错误。');
+      if (user.password !== req.body.old_password && !await res.locals.user.hasPrivilege('manage_user')) throw new ErrorMessage('舊密碼錯誤。');
       user.password = req.body.new_password;
     }
 
     if (res.locals.user && await res.locals.user.hasPrivilege('manage_user')) {
-      if (!syzoj.utils.isValidUsername(req.body.username)) throw new ErrorMessage('无效的用户名。');
+      if (!syzoj.utils.isValidUsername(req.body.username)) throw new ErrorMessage('無效的使用者名稱。');
       user.username = req.body.username;
       user.email = req.body.email;
     }

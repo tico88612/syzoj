@@ -45,8 +45,8 @@ app.post('/api/forget', async (req, res) => {
     const vurl = syzoj.utils.getCurrentLocation(req, true) + syzoj.utils.makeUrl(['api', 'forget_confirm'], { token: token });
     try {
       await Email.send(user.email,
-        `${user.username} 的 ${syzoj.config.title} 密码重置邮件`,
-        `<p>请点击该链接来重置密码：</p><p><a href="${vurl}">${vurl}</a></p><p>链接有效期为 12h。如果您不是 ${user.username}，请忽略此邮件。</p>`
+        `${user.username} 的 ${syzoj.config.title} 密碼重置信件`,
+        `<p>請點擊此連結來重設密碼：</p><p><a href="${vurl}">${vurl}</a></p><p>連結有效期限為 12h。如果您不是 ${user.username}，請忽略此信件。</p>`
       );
     } catch (e) {
       return res.send({
@@ -95,8 +95,8 @@ app.post('/api/sign_up', async (req, res) => {
       const vurl = syzoj.utils.getCurrentLocation(req, true) + syzoj.utils.makeUrl(['api', 'sign_up_confirm'], { token: token });
       try {
         await Email.send(req.body.email,
-          `${req.body.username} 的 ${syzoj.config.title} 注册验证邮件`,
-          `<p>请点击该链接完成您在 ${syzoj.config.title} 的注册：</p><p><a href="${vurl}">${vurl}</a></p><p>如果您不是 ${req.body.username}，请忽略此邮件。</p>`
+          `${req.body.username} 的 ${syzoj.config.title} 註冊驗證信件`,
+          `<p>請點擊此連結完成您在 ${syzoj.config.title} 的註冊：</p><p><a href="${vurl}">${vurl}</a></p><p>如果您不是 ${req.body.username}，請忽略此信件。</p>`
         );
       } catch (e) {
         return res.send({
@@ -133,7 +133,7 @@ app.get('/api/forget_confirm', async (req, res) => {
     try {
       jwt.verify(req.query.token, syzoj.config.email_jwt_secret, { subject: 'forget' });
     } catch (e) {
-      throw new ErrorMessage("Token 不正确。");
+      throw new ErrorMessage("Token 不正確。");
     }
     res.render('forget_confirm', {
       token: req.query.token
@@ -157,7 +157,7 @@ app.post('/api/reset_password', async (req, res) => {
     }
 
     let syzoj2_xxx_md5 = '59cb65ba6f9ad18de0dcd12d5ae11bd2';
-    if (req.body.password === syzoj2_xxx_md5) throw new ErrorMessage('密码不能为空。');
+    if (req.body.password === syzoj2_xxx_md5) throw new ErrorMessage('密碼不能為空。');
     const user = await User.findById(obj.userId);
     user.password = req.body.password;
     await user.save();
@@ -179,20 +179,20 @@ app.get('/api/sign_up_confirm', async (req, res) => {
     try {
       obj = jwt.verify(req.query.token, syzoj.config.email_jwt_secret, { subject: 'register' });
     } catch (e) {
-      throw new ErrorMessage('无效的注册验证链接: ' + e.toString());
+      throw new ErrorMessage('無效的註冊驗證連結: ' + e.toString());
     }
 
     let user = await User.fromName(obj.username);
-    if (user) throw new ErrorMessage('用户名已被占用。');
+    if (user) throw new ErrorMessage('使用者名稱已被使用。');
     user = await User.findOne({ where: { email: obj.email } });
-    if (user) throw new ErrorMessage('邮件地址已被占用。');
+    if (user) throw new ErrorMessage('信箱已被使用。');
 
     // Because the salt is "syzoj2_xxx" and the "syzoj2_xxx" 's md5 is"59cb..."
     // the empty password 's md5 will equal "59cb.."
     let syzoj2_xxx_md5 = '59cb65ba6f9ad18de0dcd12d5ae11bd2';
-    if (obj.password === syzoj2_xxx_md5) throw new ErrorMessage('密码不能为空。');
-    if (!(obj.email = obj.email.trim())) throw new ErrorMessage('邮件地址不能为空。');
-    if (!syzoj.utils.isValidUsername(obj.username)) throw new ErrorMessage('用户名不合法。');
+    if (obj.password === syzoj2_xxx_md5) throw new ErrorMessage('密碼不能為空。');
+    if (!(obj.email = obj.email.trim())) throw new ErrorMessage('信箱不能為空。');
+    if (!syzoj.utils.isValidUsername(obj.username)) throw new ErrorMessage('使用者名稱不合法。');
 
     user = await User.create({
       username: obj.username,
@@ -224,20 +224,20 @@ app.get('/api/sign_up/:token', async (req, res) => {
       let decrypted = syzoj.utils.decrypt(Buffer.from(req.params.token, 'base64'), syzoj.config.email_jwt_secret).toString();
       obj = JSON.parse(decrypted);
     } catch (e) {
-      throw new ErrorMessage('无效的注册验证链接。');
+      throw new ErrorMessage('無效的註冊驗證連結。');
     }
 
     let user = await User.fromName(obj.username);
-    if (user) throw new ErrorMessage('用户名已被占用。');
+    if (user) throw new ErrorMessage('使用者名稱已被使用。');
     user = await User.findOne({ where: { email: obj.email } });
-    if (user) throw new ErrorMessage('邮件地址已被占用。');
+    if (user) throw new ErrorMessage('信箱已被使用。');
 
     // Because the salt is "syzoj2_xxx" and the "syzoj2_xxx" 's md5 is"59cb..."
     // the empty password 's md5 will equal "59cb.."
     let syzoj2_xxx_md5 = '59cb65ba6f9ad18de0dcd12d5ae11bd2';
-    if (obj.password === syzoj2_xxx_md5) throw new ErrorMessage('密码不能为空。');
-    if (!(obj.email = obj.email.trim())) throw new ErrorMessage('邮件地址不能为空。');
-    if (!syzoj.utils.isValidUsername(obj.username)) throw new ErrorMessage('用户名不合法。');
+    if (obj.password === syzoj2_xxx_md5) throw new ErrorMessage('密碼不能為空。');
+    if (!(obj.email = obj.email.trim())) throw new ErrorMessage('信箱不能為空。');
+    if (!syzoj.utils.isValidUsername(obj.username)) throw new ErrorMessage('使用者名稱不合法。');
 
     user = await User.create({
       username: obj.username,
