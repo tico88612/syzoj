@@ -9,6 +9,7 @@ import ContestRanklist from "./contest_ranklist";
 import ContestPlayer from "./contest_player";
 
 enum ContestType {
+  GCJ = "gcj",
   NOI = "noi",
   IOI = "ioi",
   ICPC = "acm"
@@ -38,6 +39,7 @@ export default class Contest extends Model {
   holder_id: number;
 
   // type: noi, ioi, acm
+  // add: gcj
   @TypeORM.Column({ nullable: true, type: "enum", enum: ContestType })
   type: ContestType;
 
@@ -73,22 +75,22 @@ export default class Contest extends Model {
   }
 
   allowedSeeingOthers() {
-    if (this.type === 'acm') return true;
+    if (this.type === 'acm' || this.type === 'gcj') return true;
     else return false;
   }
 
   allowedSeeingScore() { // If not, then the user can only see status
-    if (this.type === 'ioi') return true;
+    if (this.type === 'ioi' || this.type === 'gcj') return true;
     else return false;
   }
 
   allowedSeeingResult() { // If not, then the user can only see compile progress
-    if (this.type === 'ioi' || this.type === 'acm') return true;
+    if (this.type === 'ioi' || this.type === 'acm' || this.type === 'gcj') return true;
     else return false;
   }
 
   allowedSeeingTestcase() {
-    if (this.type === 'ioi') return true;
+    if (this.type === 'ioi' || this.type === 'gcj') return true;
     return false;
   }
 

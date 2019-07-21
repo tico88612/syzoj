@@ -37,6 +37,18 @@
               <label>賽制</label>
               <div class="field">
                 <div class="ui radio checkbox">
+                  <input <% if (contest.id) { %>disabled <% } %>type="radio" name="type" id="type-gcj" value="gcj"<% if (contest.type === 'gcj') { %> checked="checked"<% } %>>
+                  <label for="type-noi">GCJ</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input <% if (contest.id) { %>disabled <% } %>type="radio" name="type" id="type-noi" value="noi"<% if (contest.type === 'noi') { %> checked="checked"<% } %>>
+                  <label for="type-noi">NOI</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
                   <input <% if (contest.id) { %>disabled <% } %>type="radio" name="type" id="type-noi" value="noi"<% if (contest.type === 'noi') { %> checked="checked"<% } %>>
                   <label for="type-noi">NOI</label>
                 </div>
