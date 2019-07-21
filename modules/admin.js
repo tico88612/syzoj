@@ -11,7 +11,7 @@ const calcRating = require('../libs/rating');
 
 app.get('/admin/info', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
 
     let allSubmissionsCount = await JudgeState.count();
     let todaySubmissionsCount = await JudgeState.count({
@@ -39,33 +39,33 @@ app.get('/admin/info', async (req, res) => {
 });
 
 let configItems = {
-  'title': { name: '站点标题', type: String },
+  'title': { name: '網站名稱'', type: String },
   'google_analytics': { name: 'Google Analytics', type: String },
-  '默认参数': null,
-  'default.problem.time_limit': { name: '时间限制（单位：ms）', type: Number },
-  'default.problem.memory_limit': { name: '空间限制（单位：MiB）', type: Number },
+  '預設參數': null,
+  'default.problem.time_limit': { name: '時間限制（單位：ms）', type: Number },
+  'default.problem.memory_limit': { name: '記憶體限制（單位：MiB）', type: Number },
   '限制': null,
-  'limit.time_limit': { name: '最大时间限制（单位：ms）', type: Number },
-  'limit.memory_limit': { name: '最大空间限制（单位：MiB）', type: Number },
-  'limit.data_size': { name: '所有数据包大小（单位：byte）', type: Number },
-  'limit.testdata': { name: '测试数据大小（单位：byte）', type: Number },
-  'limit.submit_code': { name: '代码长度（单位：byte）', type: Number },
-  'limit.submit_answer': { name: '提交答案题目答案大小（单位：byte）', type: Number },
-  'limit.custom_test_input': { name: '自定义测试输入文件大小（单位：byte）', type: Number },
-  'limit.testdata_filecount': { name: '测试数据文件数量（单位：byte）', type: Number },
-  '每页显示数量': null,
-  'page.problem': { name: '题库', type: Number },
-  'page.judge_state': { name: '提交记录', type: Number },
-  'page.problem_statistics': { name: '题目统计', type: Number },
+  'limit.time_limit': { name: '最大時間限制（單位：ms）', type: Number },
+  'limit.memory_limit': { name: '最大記憶體限制（單位：MiB）', type: Number },
+  'limit.data_size': { name: '所有資料包大小（單位：byte）', type: Number },
+  'limit.testdata': { name: '測試資料大小（單位：byte）', type: Number },
+  'limit.submit_code': { name: '程式碼長度（單位：byte）', type: Number },
+  'limit.submit_answer': { name: '提交答案題目答案大小（單位：byte）', type: Number },
+  'limit.custom_test_input': { name: '自定義測試輸入檔案大小（單位：byte）', type: Number },
+  'limit.testdata_filecount': { name: '測試資料檔案數量（單位：byte）', type: Number },
+  '每頁顯示數量': null,
+  'page.problem': { name: '題庫', type: Number },
+  'page.judge_state': { name: '解題紀錄', type: Number },
+  'page.problem_statistics': { name: '題目統計', type: Number },
   'page.ranklist': { name: '排行榜', type: Number },
-  'page.discussion': { name: '讨论', type: Number },
-  'page.article_comment': { name: '评论', type: Number },
-  'page.contest': { name: '比赛', type: Number }
+  'page.discussion': { name: '討論'', type: Number },
+  'page.article_comment': { name: '留言', type: Number },
+  'page.contest': { name: '比賽', type: Number }
 };
 
 app.get('/admin/config', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
 
     for (let i in configItems) {
       if (!configItems[i]) continue;
@@ -85,7 +85,7 @@ app.get('/admin/config', async (req, res) => {
 
 app.post('/admin/config', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
 
     for (let i in configItems) {
       if (!configItems[i]) continue;
@@ -117,7 +117,7 @@ app.post('/admin/config', async (req, res) => {
 
 app.get('/admin/privilege', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
 
     let a = await UserPrivilege.find();
     let users = {};
@@ -145,12 +145,12 @@ app.get('/admin/privilege', async (req, res) => {
 
 app.post('/admin/privilege', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
 
     let data = JSON.parse(req.body.data);
     for (let id in data) {
       let user = await User.findById(id);
-      if (!user) throw new ErrorMessage(`不存在 ID 为 ${id} 的用户。`);
+      if (!user) throw new ErrorMessage(`不存在 ID 為 ${id} 的用户。`);
       await user.setPrivileges(data[id]);
     }
 
@@ -165,7 +165,7 @@ app.post('/admin/privilege', async (req, res) => {
 
 app.get('/admin/rating', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
     const contests = await Contest.find({
       order: {
         start_time: 'DESC'
@@ -192,16 +192,16 @@ app.get('/admin/rating', async (req, res) => {
 
 app.post('/admin/rating/add', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
     const contest = await Contest.findById(req.body.contest);
-    if (!contest) throw new ErrorMessage('无此比赛');
+    if (!contest) throw new ErrorMessage('無此比賽');
 
     await contest.loadRelationships();
     const newcalc = await RatingCalculation.create({ contest_id: contest.id });
     await newcalc.save();
 
     if (!contest.ranklist || contest.ranklist.ranklist.player_num <= 1) {
-      throw new ErrorMessage("比赛人数太少。");
+      throw new ErrorMessage("比賽人數太少。");
     }
 
     const players = [];
@@ -238,7 +238,7 @@ app.post('/admin/rating/add', async (req, res) => {
 
 app.post('/admin/rating/delete', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
     const calcList = await RatingCalculation.find({
       where: {
         id: TypeORM.MoreThanOrEqual(req.body.calc_id)
@@ -247,7 +247,7 @@ app.post('/admin/rating/delete', async (req, res) => {
         id: 'DESC'
       }
     });
-    if (calcList.length === 0) throw new ErrorMessage('ID 不正确');
+    if (calcList.length === 0) throw new ErrorMessage('ID 不正確');
 
     for (let i = 0; i < calcList.length; i++) {
       await calcList[i].delete();
@@ -264,7 +264,7 @@ app.post('/admin/rating/delete', async (req, res) => {
 
 app.get('/admin/other', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
 
     res.render('admin_other');
   } catch (e) {
@@ -277,7 +277,7 @@ app.get('/admin/other', async (req, res) => {
 
 app.get('/admin/rejudge', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
 
     res.render('admin_rejudge', {
       form: {},
@@ -293,7 +293,7 @@ app.get('/admin/rejudge', async (req, res) => {
 
 app.post('/admin/other', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
 
     if (req.body.type === 'reset_count') {
       const problems = await Problem.find();
@@ -314,7 +314,7 @@ app.post('/admin/other', async (req, res) => {
         }
       }
     } else {
-      throw new ErrorMessage("操作类型不正确");
+      throw new ErrorMessage("操作類型不正確");
     }
 
     res.redirect(syzoj.utils.makeUrl(['admin', 'other']));
@@ -327,7 +327,7 @@ app.post('/admin/other', async (req, res) => {
 });
 app.post('/admin/rejudge', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
 
     let query = JudgeState.createQueryBuilder();
 
@@ -397,7 +397,7 @@ app.post('/admin/rejudge', async (req, res) => {
 
 app.get('/admin/links', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
 
     res.render('admin_links', {
       links: syzoj.config.links || []
@@ -412,7 +412,7 @@ app.get('/admin/links', async (req, res) => {
 
 app.post('/admin/links', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
 
     syzoj.config.links = JSON.parse(req.body.data);
     await syzoj.utils.saveConfig();
@@ -428,7 +428,7 @@ app.post('/admin/links', async (req, res) => {
 
 app.get('/admin/raw', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
 
     res.render('admin_raw', {
       data: JSON.stringify(syzoj.config, null, 2)
@@ -443,7 +443,7 @@ app.get('/admin/raw', async (req, res) => {
 
 app.post('/admin/raw', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
 
     syzoj.config = JSON.parse(req.body.data);
     await syzoj.utils.saveConfig();
@@ -459,7 +459,7 @@ app.post('/admin/raw', async (req, res) => {
 
 app.post('/admin/restart', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
 
     syzoj.restart();
 
@@ -476,7 +476,7 @@ app.post('/admin/restart', async (req, res) => {
 
 app.get('/admin/serviceID', async (req, res) => {
   try {
-    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您没有权限进行此操作。');
+    if (!res.locals.user || !res.locals.user.is_admin) throw new ErrorMessage('您沒有權限進行此動作。');
 
     res.send({
         serviceID: syzoj.serviceID
