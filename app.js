@@ -1,7 +1,8 @@
 const fs = require('fs'),
   path = require('path'),
   util = require('util'),
-  http = require('https'),
+  http = require('http'),
+  https = require('https'),
   serializejs = require('serialize-javascript'),
   UUID = require('uuid'),
   commandLineArgs = require('command-line-args');
@@ -138,6 +139,11 @@ global.syzoj = {
       app.server.listen(parseInt(syzoj.config.port), syzoj.config.hostname, () => {
         this.log(`SYZOJ is listening on ${syzoj.config.hostname}:${parseInt(syzoj.config.port)}...`);
       });
+      if(syzoj.config.ssl){
+        https.createServer(optionss, app).listen(parseInt(443), syzoj.config.hostname, () => {
+          this.log(`SYZOJ is listening on ${syzoj.config.hostname}:443...`);
+        });
+      }
     }
   },
   restart() {
