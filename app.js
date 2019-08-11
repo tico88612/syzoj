@@ -1,11 +1,10 @@
 const fs = require('fs'),
-  path = require('path'),
-  util = require('util'),
-  http = require('http'),
-  https = require('https'),
-  serializejs = require('serialize-javascript'),
-  UUID = require('uuid'),
-  commandLineArgs = require('command-line-args');
+      path = require('path'),
+      util = require('util'),
+      http = require('http'),
+      serializejs = require('serialize-javascript'),
+      UUID = require('uuid'),
+      commandLineArgs = require('command-line-args');
 
 const optionDefinitions = [
   { name: 'config', alias: 'c', type: String, defaultValue: __dirname + '/config.json' },
@@ -16,14 +15,6 @@ const options = commandLineArgs(optionDefinitions);
 require('reflect-metadata');
 
 global.Promise = require('bluebird');
-
-var key = fs.readFileSync('.ssl/privatekey.pem').toString();
-var cert = fs.readFileSync('.ssl/certificate.pem').toString();
-
-var optionss = {
-  key: key,
-  cert: cert
-};
 
 // Disable 'Warning: a promise was created in a handler at ...'
 Promise.config({
@@ -58,9 +49,9 @@ global.syzoj = {
   async run() {
     // Check config
     if (syzoj.config.session_secret === '@SESSION_SECRET@'
-      || syzoj.config.judge_token === '@JUDGE_TOKEN@'
-      || (syzoj.config.email_jwt_secret === '@EMAIL_JWT_SECRET@' && syzoj.config.register_mail)
-      || syzoj.config.db.password === '@DATABASE_PASSWORD@') {
+     || syzoj.config.judge_token === '@JUDGE_TOKEN@'
+     || (syzoj.config.email_jwt_secret === '@EMAIL_JWT_SECRET@' && syzoj.config.register_mail)
+     || syzoj.config.db.password === '@DATABASE_PASSWORD@') {
       console.log('Please generate and fill the secrets in config!');
       process.exit();
     }
@@ -107,7 +98,7 @@ global.syzoj = {
       return router;
     })());
 
-    app.server = http.createServer(optionss, app);
+    app.server = http.createServer(app);
 
     await this.connectDatabase();
     this.loadModules();
@@ -139,11 +130,6 @@ global.syzoj = {
       app.server.listen(parseInt(syzoj.config.port), syzoj.config.hostname, () => {
         this.log(`SYZOJ is listening on ${syzoj.config.hostname}:${parseInt(syzoj.config.port)}...`);
       });
-      if(syzoj.config.ssl){
-        https.createServer(optionss, app).listen(parseInt(443), syzoj.config.hostname, () => {
-          this.log(`SYZOJ is listening on ${syzoj.config.hostname}:443...`);
-        });
-      }
     }
   },
   restart() {
@@ -176,8 +162,8 @@ global.syzoj = {
     const modelsPath = __dirname + '/models/';
     const modelsBuiltPath = __dirname + '/models-built/';
     const models = fs.readdirSync(modelsPath)
-      .filter(filename => filename.endsWith('.ts') && filename !== 'common.ts')
-      .map(filename => require(modelsBuiltPath + filename.replace('.ts', '.js')).default);
+                     .filter(filename => filename.endsWith('.ts') && filename !== 'common.ts')
+                     .map(filename => require(modelsBuiltPath + filename.replace('.ts', '.js')).default);
 
     await TypeORM.createConnection({
       type: 'mariadb',
@@ -201,7 +187,7 @@ global.syzoj = {
         return;
       }
       files.filter((file) => file.endsWith('.js'))
-        .forEach((file) => this.modules.push(require(`./modules/${file}`)));
+           .forEach((file) => this.modules.push(require(`./modules/${file}`)));
     });
   },
   lib(name) {
