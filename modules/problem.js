@@ -609,6 +609,11 @@ app.post('/problem/:id/submit', app.multer.fields([{ name: 'answer', maxCount: 1
     if (problem.type !== 'submit-answer' && !syzoj.config.enabled_languages.includes(req.body.language)) throw new ErrorMessage('不支持该语言。');
     if (!curUser) throw new ErrorMessage('請登入後繼續。', { '登入': syzoj.utils.makeUrl(['login'], { 'url': syzoj.utils.makeUrl(['problem', id]) }) });
 
+    let last_judge_state = await JudgeState.findOne({
+      where: { user_id: res.locals.user.id },
+      order: { submit_time: 'DESC' }
+    });
+
     let judge_state;
     if (problem.type === 'submit-answer') {
       let File = syzoj.model('file'), path;
