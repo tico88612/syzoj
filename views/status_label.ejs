@@ -1,6 +1,7 @@
 <script>
 const iconList = {
   'Accepted': 'checkmark',
+  'Happy New Year!': 'checkmark',
   'Wrong Answer': 'remove',
   'Runtime Error': 'bomb',
   'Invalid Interaction': 'ban',
@@ -38,7 +39,8 @@ Vue.component('status-label', {
       return (this.indetail ? 'status_detail ' : '') + x.toLowerCase().split(' ').join('_');
     },
     displayStatus() {
-      return this.status.startsWith('Running') ? 'Running' : this.status;
+      
+      return this.status.startsWith('Running') ? 'Running' : (this.status === "Accepted" ? "Happy New Year!" : this.status) ;
     },
     getProgress() {
       if (this.status.startsWith('Running ')) {
